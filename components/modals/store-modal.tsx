@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { useStoreModal } from '@/hooks/use-store-modal';
 import Modal from '@/components/ui/modal';
 import { toast } from 'react-hot-toast';
+import { Store } from '@prisma/client';
 
 export const StoreModal = () => {
 	const { isOpen, onClose } = useStoreModal();
@@ -33,8 +34,8 @@ export const StoreModal = () => {
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
 			setIsLoading(true);
-			await axios.post('api/stores', values);
-			toast.success('Store created.')
+			const response = await axios.post<Store>('api/stores', values);
+			window.location.assign(`/${response.data.id}`);
 		} catch (error) {
 			toast.error('Something went wrong');
 		} finally {
