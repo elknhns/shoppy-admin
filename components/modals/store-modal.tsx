@@ -1,8 +1,10 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,22 +15,32 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { formSchema } from '@/types/zod-schema';
 import { Input } from '@/components/ui/input';
 import { useStoreModal } from '@/hooks/use-store-modal';
 import Modal from '@/components/ui/modal';
-
-const formSchema = z.object({ name: z.string().min(1) });
+import { toast } from 'react-hot-toast';
 
 export const StoreModal = () => {
 	const { isOpen, onClose } = useStoreModal();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: { name: '' },
 	});
 
-	const onSubmit = async (values: z.infer<typeof formSchema>) =>
-		console.log(values);
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			setIsLoading(true);
+			await axios.post('api/stores', values);
+			toast.success('Store created.')
+		} catch (error) {
+			toast.error('Something went wrong');
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<Modal
@@ -51,6 +63,7 @@ export const StoreModal = () => {
 										<FormControl>
 											<Input
 												placeholder='E-Commerce'
+												disabled={isLoading}
 												{...field}
 											/>
 										</FormControl>
