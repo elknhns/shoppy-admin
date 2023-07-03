@@ -50,8 +50,7 @@ export const StoreModal = () => {
 			isOpen={isOpen}
 			onClose={onClose}
 		>
-			<div>
-				<div>
+			<div className='py-2 pb-4'>
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<FormField
@@ -83,7 +82,6 @@ export const StoreModal = () => {
 							</div>
 						</form>
 					</Form>
-				</div>
 			</div>
 		</Modal>
 	);
