@@ -1,5 +1,7 @@
 'use client';
 
+import { Store } from '@prisma/client';
+import { toast } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,10 +19,8 @@ import {
 } from '@/components/ui/form';
 import { formSchema } from '@/types/zod-schema';
 import { Input } from '@/components/ui/input';
+import { Modal } from '@/components/ui/modal';
 import { useStoreModal } from '@/hooks/use-store-modal';
-import Modal from '@/components/ui/modal';
-import { toast } from 'react-hot-toast';
-import { Store } from '@prisma/client';
 
 export const StoreModal = () => {
 	const { isOpen, onClose } = useStoreModal();

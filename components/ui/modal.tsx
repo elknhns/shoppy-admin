@@ -16,23 +16,21 @@ type ModalProps = {
 	children?: React.ReactNode;
 };
 
-export default function Modal({
+export const Modal = ({
 	title,
 	description,
 	isOpen,
 	onClose,
 	children,
-}: ModalProps) {
-	return (
-		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-			<DialogContent>
-				<DialogHeader>
-					<DialogTitle>{title}</DialogTitle>
-					<DialogDescription>{description}</DialogDescription>
-				</DialogHeader>
+}: ModalProps) => (
+	<Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+		<DialogContent>
+			<DialogHeader>
+				<DialogTitle>{title}</DialogTitle>
+				<DialogDescription>{description}</DialogDescription>
+			</DialogHeader>
 
-				<div>{children}</div>
-			</DialogContent>
-		</Dialog>
-	);
-}
+			<div>{children}</div>
+		</DialogContent>
+	</Dialog>
+);

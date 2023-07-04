@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type UseStoreModal = {
+export type UseStoreModal = {
 	isOpen: boolean;
 	onOpen: () => void;
 	onClose: () => void;
