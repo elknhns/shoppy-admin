@@ -5,10 +5,9 @@ import { useParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-type Route = { href: string; label: string; active: boolean };
+type Route = { href: string; label: string };
 
-export const MainNav = (props: React.HTMLAttributes<HTMLElement>) => {
-	const { className, ...rest } = props;
+export const MainNav = ({ className }: React.HTMLAttributes<HTMLElement>) => {
 	const pathname = usePathname();
 	const params = useParams();
 
@@ -16,17 +15,14 @@ export const MainNav = (props: React.HTMLAttributes<HTMLElement>) => {
 		{
 			href: `/${params.storeId}`,
 			label: 'Overview',
-			active: pathname === `/${params.storeId}`,
 		},
 		{
 			href: `/${params.storeId}/billboards`,
 			label: 'Billboards',
-			active: pathname === `/${params.storeId}/billboards`,
 		},
 		{
 			href: `/${params.storeId}/settings`,
 			label: 'Settings',
-			active: pathname === `/${params.storeId}/settings`,
 		},
 	];
 
@@ -43,7 +39,7 @@ export const MainNav = (props: React.HTMLAttributes<HTMLElement>) => {
 					href={route.href}
 					className={cn(
 						'text-sm font-medium transition-colors hover:text-primary',
-						route.active
+						route.href === pathname
 							? 'text-black dark:text-white'
 							: 'text-muted-foreground'
 					)}

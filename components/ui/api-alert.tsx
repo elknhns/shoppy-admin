@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge, BadgeProps } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-type ApiAlertProps = {
+export type ApiAlertProps = {
 	title: string;
 	description: string;
 	variant: 'public' | 'admin';
