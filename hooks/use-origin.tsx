@@ -6,5 +6,5 @@ export const useOrigin = () => {
 
 	return isMounted && typeof window !== 'undefined' && window.location.origin
 		? window.location.origin
-		: '';
+		: '...';
 };

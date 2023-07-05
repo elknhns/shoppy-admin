@@ -5,22 +5,20 @@ import { ZodError } from 'zod';
 
 import prismadb from '@/lib/prismadb';
 
-export const PATCH = async (
-	req: Request,
-	{ params }: { params: { storeId: string } }
-) => {
+type StoreParams = { params: { storeId: string } };
+
+export const PATCH = async (req: Request, { params }: StoreParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
 		const { userId } = auth();
-		if (!userId) return new NextResponse('Unauthorized', { status: 401 });
-
-		const { name } = formSchema.parse(await req.json());
+		if (!userId)
+			return new NextResponse('Unauthenticated', { status: 401 });
 
 		const store = await prismadb.store.updateMany({
 			where: { id: params.storeId, userId },
-			data: { name },
+			data: formSchema.parse(await req.json()),
 		});
 
 		return NextResponse.json(store);
@@ -32,16 +30,14 @@ export const PATCH = async (
 	}
 };
 
-export const DELETE = async (
-	req: Request,
-	{ params }: { params: { storeId: string } }
-) => {
+export const DELETE = async (req: Request, { params }: StoreParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
 		const { userId } = auth();
-		if (!userId) return new NextResponse('Unauthorized', { status: 401 });
+		if (!userId)
+			return new NextResponse('Unauthenticated', { status: 401 });
 
 		const store = await prismadb.store.deleteMany({
 			where: { id: params.storeId, userId },
