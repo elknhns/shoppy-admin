@@ -21,6 +21,10 @@ export const MainNav = ({ className }: React.HTMLAttributes<HTMLElement>) => {
 			label: 'Billboards',
 		},
 		{
+			href: `/${params.storeId}/categories`,
+			label: 'Categories',
+		},
+		{
 			href: `/${params.storeId}/settings`,
 			label: 'Settings',
 		},

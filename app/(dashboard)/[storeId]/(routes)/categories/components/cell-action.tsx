@@ -6,7 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 
-import { BillboardColumn } from './columns';
+import { CategoryColumn } from './columns';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -18,11 +18,11 @@ import {
 import { useParams, useRouter } from 'next/navigation';
 import { AlertModal } from '@/components/modals/alert-modal';
 
-type CellActionProps = { data: BillboardColumn };
+type CellActionProps = { data: CategoryColumn };
 
 const onCopy = (id: string) => {
 	navigator.clipboard.writeText(id);
-	toast.success('Billboard ID copied to the clipboard.');
+	toast.success('Category ID copied to the clipboard.');
 };
 
 export const CellAction = ({ data }: CellActionProps) => {
@@ -34,12 +34,12 @@ export const CellAction = ({ data }: CellActionProps) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+			await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
 			router.refresh();
-			toast.success('Billboard deleted.');
+			toast.success('Category deleted.');
 		} catch {
 			toast.error(
-				'Make sure you removed all categories using this billboard first.'
+				'Make sure you removed all products using this category first.'
 			);
 		} finally {
 			setIsLoading(false);
@@ -76,7 +76,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 					</DropdownMenuItem>
 
 					<DropdownMenuItem className='cursor-pointer' asChild>
-						<Link href={`billboards/${data.id}`}>
+						<Link href={`categories/${data.id}`}>
 							<Edit className='h-4 w-4 mr-2' />
 							Update
 						</Link>

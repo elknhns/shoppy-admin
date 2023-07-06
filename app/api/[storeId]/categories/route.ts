@@ -1,27 +1,27 @@
 import { auth } from '@clerk/nextjs';
-import { billboardFormSchema } from '@/types/zod-schema';
+import { categoryFormSchema } from '@/types/zod-schema';
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
 import prismadb from '@/lib/prismadb';
 
-type BillboardsParams = { params: { storeId: string } };
+type CategoriesParams = { params: { storeId: string } };
 
-export const GET = async (req: Request, { params }: BillboardsParams) => {
+export const GET = async (req: Request, { params }: CategoriesParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
-		const billboards = await prismadb.billboard.findMany({ where: params });
+		const categories = await prismadb.category.findMany({ where: params });
 
-		return NextResponse.json(billboards);
+		return NextResponse.json(categories);
 	} catch (error) {
-		console.error('[BILLBOARDS_GET]', error);
+		console.error('[CATEGORIES_GET]', error);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 };
 
-export const POST = async (req: Request, { params }: BillboardsParams) => {
+export const POST = async (req: Request, { params }: CategoriesParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
@@ -37,15 +37,15 @@ export const POST = async (req: Request, { params }: BillboardsParams) => {
 		if (!storeByUserId)
 			return new NextResponse('Unauthorized', { status: 403 });
 
-		const body = billboardFormSchema.parse(await req.json());
+		const body = categoryFormSchema.parse(await req.json());
 
-		const billboard = await prismadb.billboard.create({
+		const category = await prismadb.category.create({
 			data: { ...body, ...params },
 		});
 
-		return NextResponse.json(billboard);
+		return NextResponse.json(category);
 	} catch (error) {
-		console.error('[BILLBOARDS_POST]', error);
+		console.error('[CATEGORIES_POST]', error);
 		if (error instanceof ZodError)
 			return new NextResponse(error.message, { status: 400 });
 		return new NextResponse('Internal Error', { status: 500 });
