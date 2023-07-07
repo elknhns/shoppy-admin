@@ -17,7 +17,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { formSchema } from '@/types/zod-schema';
+import { commonFormSchema } from '@/types/zod-schema';
 import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
 import { useStoreModal } from '@/hooks/use-store-modal';
@@ -26,15 +26,17 @@ export const StoreModal = () => {
 	const { isOpen, onClose } = useStoreModal();
 	const [isLoading, setIsLoading] = useState(false);
 
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof commonFormSchema>>({
+		resolver: zodResolver(commonFormSchema),
 		defaultValues: { name: '' },
 	});
 
-	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+	const onSubmit = async (values: z.infer<typeof commonFormSchema>) => {
 		try {
 			setIsLoading(true);
-			const response = await axios.post<Store>('/api/stores', {name: ''});
+			const response = await axios.post<Store>('/api/stores', {
+				name: '',
+			});
 			window.location.assign(`/${response.data.id}`);
 		} catch (error) {
 			toast.error('Something went wrong');
@@ -51,37 +53,37 @@ export const StoreModal = () => {
 			onClose={onClose}
 		>
 			<div className='py-2 pb-4'>
-					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)}>
-							<FormField
-								control={form.control}
-								name='name'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Name</FormLabel>
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)}>
+						<FormField
+							control={form.control}
+							name='name'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Name</FormLabel>
 
-										<FormControl>
-											<Input
-												placeholder='E-Commerce'
-												disabled={isLoading}
-												{...field}
-											/>
-										</FormControl>
+									<FormControl>
+										<Input
+											placeholder='E-Commerce'
+											disabled={isLoading}
+											{...field}
+										/>
+									</FormControl>
 
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
 
-							<div className='pt-6 space-x-2 flex items-center justify-end'>
-								<Button variant='outline' onClick={onClose}>
-									Cancel
-								</Button>
+						<div className='pt-6 space-x-2 flex items-center justify-end'>
+							<Button variant='outline' onClick={onClose}>
+								Cancel
+							</Button>
 
-								<Button type='submit'>Continue</Button>
-							</div>
-						</form>
-					</Form>
+							<Button type='submit'>Continue</Button>
+						</div>
+					</form>
+				</Form>
 			</div>
 		</Modal>
 	);

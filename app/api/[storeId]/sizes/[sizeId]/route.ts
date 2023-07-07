@@ -2,41 +2,39 @@ import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
-import { categoryFormSchema } from '@/types/zod-schema';
+import { sizeFormSchema } from '@/types/zod-schema';
 import prismadb from '@/lib/prismadb';
 
-type CategoryParams = { params: { storeId: string; categoryId: string } };
+type SizeParams = { params: { storeId: string; sizeId: string } };
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: { categoryId: string } }
+	{ params }: { params: { sizeId: string } }
 ) => {
 	try {
-		if (!params.categoryId)
-			return new NextResponse('Category ID is required', {
+		if (!params.sizeId)
+			return new NextResponse('Size ID is required', {
 				status: 400,
 			});
 
-		const category = await prismadb.category.findUnique({
-			where: { id: params.categoryId },
+		const size = await prismadb.size.findUnique({
+			where: { id: params.sizeId },
 		});
 
-		return NextResponse.json(category);
+		return NextResponse.json(size);
 	} catch (error) {
-		console.error('[CATEGORY_GET]', error);
+		console.error('[SIZE_GET]', error);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 };
 
-export const PATCH = async (req: Request, { params }: CategoryParams) => {
+export const PATCH = async (req: Request, { params }: SizeParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
-		if (!params.categoryId)
-			return new NextResponse('Category ID is required', {
-				status: 400,
-			});
+		if (!params.sizeId)
+			return new NextResponse('Size ID is required', { status: 400 });
 
 		const { userId } = auth();
 		if (!userId)
@@ -49,29 +47,27 @@ export const PATCH = async (req: Request, { params }: CategoryParams) => {
 		if (!storeByUserId)
 			return new NextResponse('Unauthorized', { status: 403 });
 
-		const category = await prismadb.category.updateMany({
-			where: { id: params.categoryId },
-			data: categoryFormSchema.parse(await req.json()),
+		const size = await prismadb.size.updateMany({
+			where: { id: params.sizeId },
+			data: sizeFormSchema.parse(await req.json()),
 		});
 
-		return NextResponse.json(category);
+		return NextResponse.json(size);
 	} catch (error) {
-		console.error('[CATEGORY_PATCH]', error);
+		console.error('[SIZE_PATCH]', error);
 		if (error instanceof ZodError)
 			return new NextResponse(error.message, { status: 400 });
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 };
 
-export const DELETE = async (req: Request, { params }: CategoryParams) => {
+export const DELETE = async (req: Request, { params }: SizeParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
-		if (!params.categoryId)
-			return new NextResponse('Category ID is required', {
-				status: 400,
-			});
+		if (!params.sizeId)
+			return new NextResponse('Size ID is required', { status: 400 });
 
 		const { userId } = auth();
 		if (!userId)
@@ -84,13 +80,13 @@ export const DELETE = async (req: Request, { params }: CategoryParams) => {
 		if (!storeByUserId)
 			return new NextResponse('Unauthorized', { status: 403 });
 
-		const category = await prismadb.category.deleteMany({
-			where: { id: params.categoryId },
+		const size = await prismadb.size.deleteMany({
+			where: { id: params.sizeId },
 		});
 
-		return NextResponse.json(category);
+		return NextResponse.json(size);
 	} catch (error) {
-		console.error('[CATEGORY_DELETE]', error);
+		console.error('[SIZE_DELETE]', error);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 };

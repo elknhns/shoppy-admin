@@ -1,6 +1,6 @@
 'use client';
 
-import { Store } from '@prisma/client';
+import { Size } from '@prisma/client';
 import { toast } from 'react-hot-toast';
 import { Trash } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,6 @@ import * as z from 'zod';
 import axios from 'axios';
 
 import { AlertModal } from '@/components/modals/alert-modal';
-import { ApiAlert } from '@/components/ui/api-alert';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -21,33 +20,39 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { commonFormSchema } from '@/types/zod-schema';
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { useOrigin } from '@/hooks/use-origin';
+import { sizeFormSchema } from '@/types/zod-schema';
 
-type SettingsFormProps = { initialData: Store };
-type SettingsFormValues = z.infer<typeof commonFormSchema>;
+type SizeFormProps = { initialData: Size | null };
+type SizeFormValues = z.infer<typeof sizeFormSchema>;
 
-export const SettingsForm = ({ initialData }: SettingsFormProps) => {
+export const SizeForm = ({ initialData }: SizeFormProps) => {
 	const params = useParams();
 	const router = useRouter();
-	const origin = useOrigin();
-	const form = useForm<SettingsFormValues>({
-		resolver: zodResolver(commonFormSchema),
-		defaultValues: initialData,
+	const form = useForm<SizeFormValues>({
+		resolver: zodResolver(sizeFormSchema),
+		defaultValues: initialData ?? { name: '', value: '' },
 	});
 
 	const [isOpen, setIsOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const onSubmit = async (data: SettingsFormValues) => {
+	const baseUrl = `${params.storeId}/sizes`;
+	const apiBaseUrl = `/api/${baseUrl}`;
+
+	const onSubmit = async (data: SizeFormValues) => {
 		try {
 			setIsLoading(true);
-			await axios.patch(`/api/stores/${params.storeId}`, data);
+
+			initialData
+				? await axios.patch(`${apiBaseUrl}/${params.sizeId}`, data)
+				: await axios.post(apiBaseUrl, data);
+
 			router.refresh();
-			toast.success('Store updated.');
+			router.push(`/${baseUrl}`);
+			toast.success(initialData ? 'Size updated.' : 'Size created.');
 		} catch {
 			toast.error('Something went wrong');
 		} finally {
@@ -58,13 +63,13 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(`/api/stores/${params.storeId}`);
+			await axios.delete(`${apiBaseUrl}/${params.sizeId}`);
 			router.refresh();
-			router.push('/');
-			toast.success('Store deleted.');
+			router.push(`/${baseUrl}`);
+			toast.success('Billboard deleted.');
 		} catch {
 			toast.error(
-				'Make sure you removed all products and categories first.'
+				'Make sure you removed all products using this size first.'
 			);
 		} finally {
 			setIsLoading(false);
@@ -83,18 +88,20 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 
 			<div className='flex items-center justify-between'>
 				<Heading
-					title='Settings'
-					description='Manage store preferences'
+					title={initialData ? 'Edit size' : 'Create size'}
+					description={initialData ? 'Edit a size' : 'Add a new size'}
 				/>
 
-				<Button
-					variant='destructive'
-					size='icon'
-					disabled={isLoading}
-					onClick={() => setIsOpen(true)}
-				>
-					<Trash className='h-4 w-4' />
-				</Button>
+				{initialData && (
+					<Button
+						variant='destructive'
+						size='icon'
+						disabled={isLoading}
+						onClick={() => setIsOpen(true)}
+					>
+						<Trash className='h-4 w-4' />
+					</Button>
+				)}
 			</div>
 
 			<Separator />
@@ -115,7 +122,27 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 									<FormControl>
 										<Input
 											disabled={isLoading}
-											placeholder='Store name'
+											placeholder='Size name'
+											{...field}
+										/>
+									</FormControl>
+
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name='value'
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Value</FormLabel>
+
+									<FormControl>
+										<Input
+											disabled={isLoading}
+											placeholder='Size value'
 											{...field}
 										/>
 									</FormControl>
@@ -127,18 +154,10 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 					</div>
 
 					<Button type='submit' disabled={isLoading}>
-						Save changes
+						{initialData ? 'Save changes' : 'Create'}
 					</Button>
 				</form>
 			</Form>
-
-			<Separator />
-
-			<ApiAlert
-				title='NEXT_PUBLIC_API_URL'
-				description={`${origin}/api/${params.storeId}`}
-				variant='public'
-			/>
 		</>
 	);
 };

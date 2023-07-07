@@ -2,26 +2,26 @@ import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
-import { categoryFormSchema } from '@/types/zod-schema';
+import { sizeFormSchema } from '@/types/zod-schema';
 import prismadb from '@/lib/prismadb';
 
-type CategoriesParams = { params: { storeId: string } };
+type SizesParams = { params: { storeId: string } };
 
-export const GET = async (req: Request, { params }: CategoriesParams) => {
+export const GET = async (req: Request, { params }: SizesParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
 
-		const categories = await prismadb.category.findMany({ where: params });
+		const sizes = await prismadb.size.findMany({ where: params });
 
-		return NextResponse.json(categories);
+		return NextResponse.json(sizes);
 	} catch (error) {
-		console.error('[CATEGORIES_GET]', error);
+		console.error('[SIZES_GET]', error);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 };
 
-export const POST = async (req: Request, { params }: CategoriesParams) => {
+export const POST = async (req: Request, { params }: SizesParams) => {
 	try {
 		if (!params.storeId)
 			return new NextResponse('Store ID is required', { status: 400 });
@@ -37,15 +37,15 @@ export const POST = async (req: Request, { params }: CategoriesParams) => {
 		if (!storeByUserId)
 			return new NextResponse('Unauthorized', { status: 403 });
 
-		const body = categoryFormSchema.parse(await req.json());
+		const body = sizeFormSchema.parse(await req.json());
 
-		const category = await prismadb.category.create({
+		const size = await prismadb.size.create({
 			data: { ...body, ...params },
 		});
 
-		return NextResponse.json(category);
+		return NextResponse.json(size);
 	} catch (error) {
-		console.error('[CATEGORIES_POST]', error);
+		console.error('[SIZES_POST]', error);
 		if (error instanceof ZodError)
 			return new NextResponse(error.message, { status: 400 });
 		return new NextResponse('Internal Error', { status: 500 });

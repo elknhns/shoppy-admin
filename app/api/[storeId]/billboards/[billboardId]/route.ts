@@ -1,8 +1,8 @@
 import { auth } from '@clerk/nextjs';
-import { billboardFormSchema } from '@/types/zod-schema';
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
+import { billboardFormSchema } from '@/types/zod-schema';
 import prismadb from '@/lib/prismadb';
 
 type BillboardParams = { params: { storeId: string; billboardId: string } };

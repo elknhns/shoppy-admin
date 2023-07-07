@@ -1,5 +1,5 @@
 import { auth } from '@clerk/nextjs';
-import { formSchema } from '@/types/zod-schema';
+import { commonFormSchema } from '@/types/zod-schema';
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
@@ -18,7 +18,7 @@ export const PATCH = async (req: Request, { params }: StoreParams) => {
 
 		const store = await prismadb.store.updateMany({
 			where: { id: params.storeId, userId },
-			data: formSchema.parse(await req.json()),
+			data: commonFormSchema.parse(await req.json()),
 		});
 
 		return NextResponse.json(store);
