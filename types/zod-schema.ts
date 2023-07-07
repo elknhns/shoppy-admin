@@ -1,18 +1,28 @@
 import * as z from 'zod';
 
-export const commonFormSchema = z.object({ name: z.string().min(1) });
+const requiredString = z.string().min(1);
+
+export const commonFormSchema = z.object({ name: requiredString });
 
 export const billboardFormSchema = z.object({
-	label: z.string().min(1),
-	imageUrl: z.string().min(1),
+	label: requiredString,
+	imageUrl: requiredString,
 });
 
 export const categoryFormSchema = z.object({
-	name: z.string().min(1),
-	billboardId: z.string().min(1),
+	name: requiredString,
+	billboardId: requiredString,
 });
 
 export const sizeFormSchema = z.object({
-	name: z.string().min(1),
-	value: z.string().min(1),
+	name: requiredString,
+	value: requiredString,
+});
+
+export const colorFormSchema = z.object({
+	name: requiredString,
+	value: z
+		.string()
+		.min(4)
+		.regex(/^#/, { message: 'String must be a valid hex code' }),
 });

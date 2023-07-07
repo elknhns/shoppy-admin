@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 import { AlertModal } from '@/components/modals/alert-modal';
 import { Button } from '@/components/ui/button';
+import { ColorColumn } from './columns';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -16,13 +17,12 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SizeColumn } from './columns';
 
-type CellActionProps = { data: SizeColumn };
+type CellActionProps = { data: ColorColumn };
 
 const onCopy = (id: string) => {
 	navigator.clipboard.writeText(id);
-	toast.success('Size ID copied to the clipboard.');
+	toast.success('Color ID copied to the clipboard.');
 };
 
 export const CellAction = ({ data }: CellActionProps) => {
@@ -34,12 +34,12 @@ export const CellAction = ({ data }: CellActionProps) => {
 	const onDelete = async () => {
 		try {
 			setIsLoading(true);
-			await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
+			await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
 			router.refresh();
-			toast.success('Size deleted.');
+			toast.success('Color deleted.');
 		} catch {
 			toast.error(
-				'Make sure you removed all products using this size first.'
+				'Make sure you removed all products using this color first.'
 			);
 		} finally {
 			setIsLoading(false);
@@ -76,7 +76,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 					</DropdownMenuItem>
 
 					<DropdownMenuItem className='cursor-pointer' asChild>
-						<Link href={`sizes/${data.id}`}>
+						<Link href={`colors/${data.id}`}>
 							<Edit className='h-4 w-4 mr-2' />
 							Update
 						</Link>

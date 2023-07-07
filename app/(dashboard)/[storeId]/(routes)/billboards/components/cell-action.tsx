@@ -2,10 +2,12 @@
 
 import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 
+import { AlertModal } from '@/components/modals/alert-modal';
 import { BillboardColumn } from './columns';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,8 +17,6 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useParams, useRouter } from 'next/navigation';
-import { AlertModal } from '@/components/modals/alert-modal';
 
 type CellActionProps = { data: BillboardColumn };
 

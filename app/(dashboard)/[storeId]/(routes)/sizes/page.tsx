@@ -12,9 +12,9 @@ export default async function SizesPage({ params }: SizesPageProps) {
 		orderBy: { createdAt: 'desc' },
 	});
 
-	const formattedSizes: SizeColumn[] = sizes.map((billboard) => ({
-		...billboard,
-		createdAt: format(billboard.createdAt, 'MMMM do, yyyy'),
+	const formattedSizes: SizeColumn[] = sizes.map((size) => ({
+		...size,
+		createdAt: format(size.createdAt, 'MMMM do, yyyy'),
 	}));
 
 	return (
