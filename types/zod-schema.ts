@@ -26,3 +26,14 @@ export const colorFormSchema = z.object({
 		.min(4)
 		.regex(/^#/, { message: 'String must be a valid hex code' }),
 });
+
+export const productFormSchema = z.object({
+	name: requiredString,
+	images: z.object({ url: z.string() }).array(),
+	price: z.coerce.number().min(1),
+	categoryId: requiredString,
+	sizeId: requiredString,
+	colorId: requiredString,
+	isFeatured: z.boolean().default(false).optional(),
+	isArchived: z.boolean().default(false).optional(),
+});

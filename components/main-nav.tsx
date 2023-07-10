@@ -33,6 +33,10 @@ export const MainNav = ({ className }: React.HTMLAttributes<HTMLElement>) => {
 			label: 'Colors',
 		},
 		{
+			href: `/${params.storeId}/products`,
+			label: 'Products',
+		},
+		{
 			href: `/${params.storeId}/settings`,
 			label: 'Settings',
 		},
