@@ -1,12 +1,11 @@
 'use client';
 
+import { Category } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
 
-export type CategoryColumn = {
-	id: string;
-	name: string;
+export type CategoryColumn = Pick<Category, 'name'> & {
 	billboardLabel: string;
 	createdAt: string;
 };

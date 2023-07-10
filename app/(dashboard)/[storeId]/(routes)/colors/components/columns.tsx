@@ -1,15 +1,11 @@
 'use client';
 
+import { Color } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
 
-export type ColorColumn = {
-	id: string;
-	name: string;
-	value: string;
-	createdAt: string;
-};
+export type ColorColumn = Pick<Color, 'name' | 'value'> & { createdAt: string };
 
 export const columns: ColumnDef<ColorColumn>[] = [
 	{ accessorKey: 'name', header: 'Name' },

@@ -27,8 +27,6 @@ export const GET = async (req: Request, { params }: ProductsParams) => {
 			orderBy: { createdAt: 'desc' },
 		});
 
-		console.log(products)
-
 		return NextResponse.json(products);
 	} catch (error) {
 		console.error('[PRODUCTS_GET]', error);

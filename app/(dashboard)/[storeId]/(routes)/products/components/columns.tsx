@@ -5,9 +5,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
 import { Product } from '@prisma/client';
 
-export type ProductColumn = Omit<
+export type ProductColumn = Pick<
 	Product,
-	'price' | 'createdAt' | 'size' | 'color' | 'category'
+	'name' | 'isArchived' | 'isFeatured'
 > & {
 	price: string;
 	createdAt: string;
