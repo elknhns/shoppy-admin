@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
 
-export type BillboardColumn = Pick<Billboard, 'label'> & { createdAt: string };
+export type BillboardColumn = Pick<Billboard, 'label' | 'id'> & { createdAt: string };
 
 export const columns: ColumnDef<BillboardColumn>[] = [
 	{ accessorKey: 'label', header: 'Label' },

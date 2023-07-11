@@ -7,7 +7,7 @@ import { Product } from '@prisma/client';
 
 export type ProductColumn = Pick<
 	Product,
-	'name' | 'isArchived' | 'isFeatured'
+	'id' | 'name' | 'isArchived' | 'isFeatured'
 > & {
 	price: string;
 	createdAt: string;

@@ -5,7 +5,9 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
 
-export type ColorColumn = Pick<Color, 'name' | 'value'> & { createdAt: string };
+export type ColorColumn = Pick<Color, 'id' | 'name' | 'value'> & {
+	createdAt: string;
+};
 
 export const columns: ColumnDef<ColorColumn>[] = [
 	{ accessorKey: 'name', header: 'Name' },

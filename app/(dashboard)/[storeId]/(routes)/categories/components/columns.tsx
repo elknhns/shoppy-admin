@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
 
-export type CategoryColumn = Pick<Category, 'name'> & {
+export type CategoryColumn = Pick<Category, 'id' | 'name'> & {
 	billboardLabel: string;
 	createdAt: string;
 };
