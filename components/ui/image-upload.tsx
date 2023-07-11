@@ -55,6 +55,7 @@ export default function ImageUpload(props: ImageUploadProps) {
 				<CldUploadWidget onUpload={onUpload} uploadPreset='ydk04axh'>
 					{({ open }) => (
 						<Button
+							type='button'
 							variant='secondary'
 							disabled={disabled}
 							onClick={() => open()}
