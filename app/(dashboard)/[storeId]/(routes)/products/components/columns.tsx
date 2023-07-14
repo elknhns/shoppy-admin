@@ -3,10 +3,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { CellAction } from './cell-action';
-import { Product } from '@prisma/client';
+import { SafeProduct } from '@/types/safe-entity';
 
 export type ProductColumn = Pick<
-	Product,
+	SafeProduct,
 	'id' | 'name' | 'isArchived' | 'isFeatured'
 > & {
 	price: string;

@@ -12,6 +12,7 @@ import axios from 'axios';
 
 import { AlertModal } from '@/components/modals/alert-modal';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Form,
 	FormControl,
@@ -33,10 +34,10 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import ImageUpload from '@/components/ui/image-upload';
-import { Checkbox } from '@/components/ui/checkbox';
+import { SafeProduct } from '@/types/safe-entity';
 
 type ProductFromProps = {
-	initialData: (Product & { images: Image[] }) | null;
+	initialData: (SafeProduct & { images: Image[] }) | null;
 	categories: Category[];
 	colors: Color[];
 	sizes: Size[];
