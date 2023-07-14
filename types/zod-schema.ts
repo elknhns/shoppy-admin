@@ -37,3 +37,7 @@ export const productFormSchema = z.object({
 	isFeatured: z.boolean().default(false).optional(),
 	isArchived: z.boolean().default(false).optional(),
 });
+
+export const paymentSchema = z.object({
+	productIds: requiredString.array().nonempty(),
+});
