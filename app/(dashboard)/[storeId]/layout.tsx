@@ -9,10 +9,8 @@ type DashboardLayoutProps = {
 	params: { storeId: string };
 };
 
-export default async function DashboardLayout({
-	children,
-	params,
-}: DashboardLayoutProps) {
+export default async function DashboardLayout(props: DashboardLayoutProps) {
+	const { children, params } = props;
 	const { userId } = auth();
 	if (!userId) return redirect('/signin');
 

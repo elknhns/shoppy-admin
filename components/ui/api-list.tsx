@@ -5,14 +5,23 @@ import { useParams } from 'next/navigation';
 import { ApiAlert, ApiAlertProps } from '@/components/ui/api-alert';
 import { useOrigin } from '@/hooks/use-origin';
 
-type ApiListProps = { entityName: string; entityIdName: string };
+type ApiListProps = {
+	entityName: string;
+	entityIdName: string;
+	isLoading?: boolean;
+};
+
 type API = {
 	method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	variant: ApiAlertProps['variant'];
 	endpoint: string;
 };
 
-export const ApiList = ({ entityName, entityIdName }: ApiListProps) => {
+export const ApiList = ({
+	entityName,
+	entityIdName,
+	isLoading,
+}: ApiListProps) => {
 	const params = useParams();
 	const origin = useOrigin();
 
@@ -52,6 +61,7 @@ export const ApiList = ({ entityName, entityIdName }: ApiListProps) => {
 			title={api.method}
 			variant={api.variant}
 			description={api.endpoint}
+			isLoading={isLoading || !origin}
 		/>
 	));
 };
