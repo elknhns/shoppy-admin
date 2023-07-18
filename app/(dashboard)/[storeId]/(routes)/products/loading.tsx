@@ -1,4 +1,4 @@
-import { MoreHorizontal, Plus } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import { ApiList } from '@/components/ui/api-list';
 import { Button } from '@/components/ui/button';
@@ -15,11 +15,11 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-const BillboardsLoading = () => (
+const ProductsLoading = () => (
 	<div className='p-8 pt-6 space-y-4'>
 		<Heading
-			title='Billboards'
-			description='Manage billboards for your store'
+			title='Products'
+			description='Manage products for your store'
 		/>
 
 		<Separator />
@@ -33,7 +33,13 @@ const BillboardsLoading = () => (
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead>Label</TableHead>
+							<TableHead>Name</TableHead>
+							<TableHead>Archived</TableHead>
+							<TableHead>Featured</TableHead>
+							<TableHead>Price</TableHead>
+							<TableHead>Category</TableHead>
+							<TableHead>Size</TableHead>
+							<TableHead>Color</TableHead>
 							<TableHead>Date</TableHead>
 							<TableHead className='w-[81px]' />
 						</TableRow>
@@ -42,6 +48,30 @@ const BillboardsLoading = () => (
 					<TableBody>
 						{Array.from({ length: 3 }).map(() => (
 							<TableRow key={crypto.randomUUID()}>
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
 								<TableCell>
 									<Skeleton className='h-4' />
 								</TableCell>
@@ -70,11 +100,11 @@ const BillboardsLoading = () => (
 			</div>
 		</div>
 
-		<Heading title='API' description='API calls for Billboards' />
+		<Heading title='API' description='API calls for Products' />
 		<Separator />
 
-		<ApiList entityName='billboards' entityIdName='billboardId' isLoading />
+		<ApiList entityName='products' entityIdName='productId' isLoading />
 	</div>
 );
 
-export default BillboardsLoading;
+export default ProductsLoading;

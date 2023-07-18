@@ -1,4 +1,4 @@
-import { MoreHorizontal, Plus } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import { ApiList } from '@/components/ui/api-list';
 import { Button } from '@/components/ui/button';
@@ -15,12 +15,9 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-const BillboardsLoading = () => (
+const OrdersLoading = () => (
 	<div className='p-8 pt-6 space-y-4'>
-		<Heading
-			title='Billboards'
-			description='Manage billboards for your store'
-		/>
+		<Heading title='Orders' description='Manage orders for your store' />
 
 		<Separator />
 
@@ -33,9 +30,11 @@ const BillboardsLoading = () => (
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead>Label</TableHead>
-							<TableHead>Date</TableHead>
-							<TableHead className='w-[81px]' />
+							<TableHead>Products</TableHead>
+							<TableHead>Phone</TableHead>
+							<TableHead>Address</TableHead>
+							<TableHead>Total price</TableHead>
+							<TableHead>Paid</TableHead>
 						</TableRow>
 					</TableHeader>
 
@@ -51,17 +50,15 @@ const BillboardsLoading = () => (
 								</TableCell>
 
 								<TableCell>
-									<Button
-										variant='ghost'
-										disabled
-										className='h-8 w-8 p-0'
-									>
-										<span className='sr-only'>
-											Open menu
-										</span>
+									<Skeleton className='h-4' />
+								</TableCell>
 
-										<MoreHorizontal className='h-4 w-4' />
-									</Button>
+								<TableCell>
+									<Skeleton className='h-4' />
+								</TableCell>
+
+								<TableCell>
+									<Skeleton className='h-4' />
 								</TableCell>
 							</TableRow>
 						))}
@@ -69,12 +66,7 @@ const BillboardsLoading = () => (
 				</Table>
 			</div>
 		</div>
-
-		<Heading title='API' description='API calls for Billboards' />
-		<Separator />
-
-		<ApiList entityName='billboards' entityIdName='billboardId' isLoading />
 	</div>
 );
 
-export default BillboardsLoading;
+export default OrdersLoading;
