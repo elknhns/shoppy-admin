@@ -17,10 +17,7 @@ import {
 
 const ColorsLoading = () => (
 	<div className='p-8 pt-6 space-y-4'>
-		<Heading
-			title='Colors'
-			description='Manage colors for your store'
-		/>
+		<Heading title='Colors' description='Manage colors for your store' />
 
 		<Separator />
 
@@ -72,6 +69,16 @@ const ColorsLoading = () => (
 						))}
 					</TableBody>
 				</Table>
+			</div>
+
+			<div className='flex items-center justify-end space-x-2 py-4'>
+				<Button variant='outline' size='sm' disabled>
+					Previous
+				</Button>
+
+				<Button variant='outline' size='sm' disabled>
+					Next
+				</Button>
 			</div>
 		</div>
 

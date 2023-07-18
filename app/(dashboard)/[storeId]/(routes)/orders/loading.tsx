@@ -65,6 +65,16 @@ const OrdersLoading = () => (
 					</TableBody>
 				</Table>
 			</div>
+
+			<div className='flex items-center justify-end space-x-2 py-4'>
+				<Button variant='outline' size='sm' disabled>
+					Previous
+				</Button>
+
+				<Button variant='outline' size='sm' disabled>
+					Next
+				</Button>
+			</div>
 		</div>
 	</div>
 );
